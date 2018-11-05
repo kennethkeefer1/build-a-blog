@@ -47,14 +47,13 @@ def display_blog_entries():
     Either list one entry with the given ID
     Or list all blog entries (in default or newest order)
     '''
-    # TODO refactor to use routes with variables instead of GET parameters
+    
     entry_id = request.args.get('id')
     if (entry_id):
         entry = Entry.query.get(entry_id)
         return render_template('single_entry.html', title="Blog Entry", entry=entry)
 
-    # if we're here, we need to display all the entries
-    # TODO store sort direction in session[] so we remember user's preference
+    
     sort = request.args.get('sort')
     if (sort=="newest"):
         all_entries = Entry.query.order_by(Entry.created.desc()).all()
@@ -78,7 +77,7 @@ def new_entry():
             db.session.add(new_entry)
             db.session.commit()
 
-            # display just this most recent blog entry
+            
             url = "/blog?id=" + str(new_entry.id)
             return redirect(url)
         else:
@@ -88,8 +87,8 @@ def new_entry():
                 new_entry_title=new_entry_title,
                 new_entry_body=new_entry_body)
 
-    else: # GET request
+    else: 
         return render_template('new_entry_form.html', title="Create new blog entry")
-#
+
 if __name__ == '__main__':
     app.run()
